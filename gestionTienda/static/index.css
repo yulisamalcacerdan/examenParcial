@@ -1,0 +1,15 @@
+body {  
+    font-size: 15px;      
+    font-family: 'Nunito Sans', sans-serif;
+    }
+    
+.titulo{
+    font-family: 'Archivo Black', sans-serif;
+}
+:root{
+--default-color-dark6:#f1f2f2;
+--color1:#867666;
+--color2:#E1B80D;
+--color3:#D5C3AA ;              
+}
+
