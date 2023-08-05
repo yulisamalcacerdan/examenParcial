@@ -44,7 +44,7 @@
     <div class="container mt-5">
       <div class="row row-cols-1 row-cols-lg-1 g-1 g-lg-1">
         <div class="col">
-          <h1 class="display-5">Tiendas</h1>
+          <h1 class="display-5">Productos</h1>
         </div>
       </div>
     </div>
@@ -53,13 +53,12 @@
       <div class="row row-cols-2 row-cols-lg-6 g-1 g-lg-1">
         <div class="col">
           <div class="p-3 text-center">
-            <button type="button" class="btn btn-success" style="width: 100%;" data-bs-toggle="modal" data-bs-target="#nuevaTienda">Nuevo <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+            <button type="button" class="btn btn-success" style="width: 100%;" data-bs-toggle="modal" data-bs-target="#nuevoProducto">Nuevo <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
           </svg></button></div>
         </div>
         <div class="col">
-          <div class="p-3 text-center">
-            <button type="button" class="btn btn-success" style="width: 100%;" data-bs-toggle="modal" data-bs-target="#listaProductos">Lista de Productos</button></div>
+          <div class="p-3 text-center"><button type="button" class="btn btn-success" style="width: 100%;" data-bs-toggle="modal" data-bs-target="#asignarTienda">Asignar Tienda</button></div>
         </div>
         <div class="col">
           <div class="p-3 text-center"><button type="button" class="btn btn-success" style="width: 100%;">Success</button></div>
@@ -82,26 +81,26 @@
                       
                   <table class="table table-striped table-hover ">
                       <thead>
-                          <th class="text-center" width="20%">Dirección</th>
-                          <th class="text-center" width="20%">Provincia</th>
-                          <th class="text-center" width="20%">Región</th>
-                          <th class="text-center" width="10%">Fecha Creación</th>
-                          <th class="text-center" width="10%">Teléfono</th>
+                          <th class="text-center" width="20%">Descripción</th>
+                          <th class="text-center" width="10%">Código</th>
+                          <th class="text-center" width="10%">PrecioVenta</th>
+                          <th class="text-center" width="10%">Cantidad</th>
+                          <th class="text-center" width="29%">Tienda</th>      
                           <th class="text-center" width="7%">Ver Stock</th>
                           <th class="text-center" width="7%">Editar</th>
-                          <th class="text-center" width="7%">Eliminar</th>
+                          <th class="text-center" width="7%">Eliminar</th>                    
                       </thead>
                       <tbody>
-                          {% for listaTienda in listaTiendas %}
+                          {% for listaProducto in listaProductos %}
                           <tr>
-                              <td>{{ listaTienda.direccion }}</td>
-                              <td>{{ listaTienda.provincia }}</td>
-                              <td>{{ listaTienda.region }}</td>
-                              <td class="text-center">{{ listaTienda.fechaCreacion }}</td>
-                              <td class="text-center">{{ listaTienda.telefono }}</td>
-                              <td class="text-center"><a class="btn btn-info" href="{% url 'gestionTienda:listarTiendaP' listaTienda.id  %}"><i class="bi bi-eye-fill"></i></a></td>
+                              <td>{{ listaProducto.descripcion }}</td>
+                              <td class="text-center">{{ listaProducto.codigo }}</td>
+                              <td class="text-center">{{ listaProducto.precioVenta }}</td>
+                              <td class="text-center">{{ listaProducto.cantidad }}</td>
+                              <td class="text-center">{{ listaProducto.tiendaProducto.direccion }}  -  {{ listaProducto.tiendaProducto.provincia }} - {{ listaProducto.tiendaProducto.region }}</td>
+                              <td class="text-center"><a class="btn btn-info " href=""><i class="bi bi-eye-fill"></i></a></td>
                               <td class="text-center"><a class="btn btn-warning" href=""><i class="bi bi-pencil-square"></i></a></td>
-                              <td class="text-center"><a class="btn btn-danger" href="{% url 'gestionTienda:eliminarTienda' listaTienda.id  %}"><i class="bi bi-trash-fill"></i></a></td>
+                              <td class="text-center"><a class="btn btn-danger" href="{% url 'gestionTienda:eliminarProducto' listaProducto.id  %}"><i class="bi bi-trash-fill"></i></a></td>
                           </tr>
                           {% endfor %}
                       </tbody>
@@ -115,54 +114,48 @@
 </html>
 
 
-<div class="modal fade" tabindex="-1" id="nuevaTienda" data-bs-backdrop="static" data-bs-keyboard="false">
-  <div class="modal-dialog modal-lg">
+<div class="modal fade" tabindex="-1" id="nuevoProducto" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog">
       <div class="modal-content">
-          <form method="post" action="{% url 'gestionTienda:registroTienda' %}">
+          <form method="post" action="{% url 'gestionTienda:registroProducto' %}">
               {% csrf_token %}
               <div class="modal-header">
-                  <h5 class="modal-title">Crear Tienda</h5>
+                  <h5 class="modal-title">Crear Producto</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
                   <div class="row form-group justify-content-center mb-3">
                       <div class="col-12">
                         <div class="input-group input-group-sm mb-3">
-                          <span class="input-group-text" id="inputGroup-sizing-sm">Dirección</span>
-                          <input type="text" name="direccion" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" aria-rowspan="">
+                          <span class="input-group-text" id="inputGroup-sizing-sm">Descripción</span>
+                          <input type="text" name="descripcion" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" aria-rowspan="">
                         </div>                          
                       </div>
-                      <div class="col-6">
+                      <div class="col-12">
                         <div class="input-group input-group-sm mb-3">
-                          <span class="input-group-text" id="inputGroup-sizing-sm">Provincia</span>
-                          <input type="text" name="provincia" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                          <span class="input-group-text" id="inputGroup-sizing-sm">Código</span>
+                          <input type="text" name="codigo" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                         </div>
                       </div>
 
                       <div class="col-6">
                         <div class="input-group input-group-sm mb-3">
-                          <span class="input-group-text" id="inputGroup-sizing-sm">Región</span>
-                          <input type="text" name="region" class="form-control" name="region" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                          <span class="input-group-text" id="inputGroup-sizing-sm">Precio Venta</span>
+                          <input type="number" name="precioVenta" class="form-control" name="region" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                         </div>
                       </div>
 
                       <div class="col-6">
                         <div class="input-group input-group-sm mb-3">
-                          <span class="input-group-text" id="inputGroup-sizing-sm">Fecha Creación</span>
-                          <input type="date" name="fechaCreacion" class="form-control" name="region" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                          <span class="input-group-text" id="inputGroup-sizing-sm">Cantidad</span>
+                          <input type="number" name="cantidad" class="form-control" name="region" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                         </div>
-                      </div>
-                      <div class="col-6">
-                        <div class="input-group input-group-sm mb-3">
-                          <span class="input-group-text" id="inputGroup-sizing-sm"><i class="bi bi-telephone-fill"></i></span>
-                          <input type="text" name="telefono" class="form-control" name="region" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                        </div>
-                      </div>
+                      </div>                      
                   </div>
               </div>
               <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-primary">Crear tienda</button>
+                  <button type="submit" class="btn btn-primary">Crear producto</button>
               </div>
           </form>
       </div>
@@ -170,3 +163,42 @@
 </div>
 
 
+<div class="modal fade" tabindex="-1" id="asignarTienda" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="{% url 'gestionTienda:asignarTienda' %}">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title">Asignar tienda a producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row form-group justify-content-center mb-3">
+                        <div class="col-5">
+                            <label>Seleccionar Producto</label>
+                            <select class="form-select" name="productoSeleccionado" required>
+                                <option value="" selected></option>
+                                {% for producto in listaProductos %}
+                                <option value="{{ producto.id }}">{{ producto.descripcion }} {{ usuario.apellidoUsuario }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-5">
+                            <label>Seleccionar tienda</label>
+                            <select class="form-select" name="tiendaSeleccionado" required>
+                                <option value="" selected></option>
+                                {% for tienda in listaTiendas %}
+                                <option value="{{ tienda.id }}">{{ tienda.direccion }} {{ tienda.provincia }} {{ tienda.region }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Asignar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
