@@ -10,11 +10,11 @@ def productos(request):
 def tiendas(request):
     return render(request,'tiendas.html')
 
-def listarTiendaP(request,idTienda):        
-          tiendaSeleccionado = producto.objects.get(tiendaproducto=idTienda)
-          
-          return HttpResponseRedirect(reverse('gestionTienda:registroTienda'))
-
+def listarTiendaP(request,idTienda):             
+     productoInformacion = producto.objects.get(tiendaProducto=idTienda)
+     tiendaInformacion = tienda.objects.get(id=idTienda)
+     return render(request,'verTiendas.html',{'productoInfo':productoInformacion,'tiendaInfo':tiendaInformacion})                                   
+                                               
 def registroTienda(request):
         if request.method=='POST':
              direccion = request.POST.get('direccion')
@@ -57,6 +57,11 @@ def eliminarProducto(request,idProducto):
      productoEliminar= producto.objects.get(id=idProducto)
      productoEliminar.delete()
      return HttpResponseRedirect(reverse('gestionTienda:registroProducto'))
+
+def eliminarProductoVer(request,idProducto):     
+     productoEliminar= producto.objects.get(id=idProducto)
+     productoEliminar.delete()
+     return HttpResponseRedirect(reverse('gestionTienda:registroTienda'))
 
 def asignarTienda(request):
     if request.method == 'POST':

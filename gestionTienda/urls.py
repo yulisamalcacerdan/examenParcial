@@ -10,6 +10,7 @@ urlpatterns =[
  path('eliminarProducto/<str:idProducto>',views.eliminarProducto,name='eliminarProducto'),
  path('asignarTienda',views.asignarTienda,name='asignarTienda'),
  path('listarTiendaP/<str:idTienda>',views.listarTiendaP,name='listarTiendaP'), 
+ path('eliminarProductoVer/<str:idProducto>',views.eliminarProductoVer,name='eliminarProductoVer'),
 ]
 
  
